@@ -38,6 +38,7 @@ public class Repository {
 
             return lines;
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -67,6 +68,7 @@ public class Repository {
             Gson gson = new Gson();
             return gson.fromJson(sb.toString(), String[].class);
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
