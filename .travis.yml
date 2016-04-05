@@ -7,7 +7,7 @@ jdk:
 before_install:
  - chmod +x gradlew
 
-script
+script:
  - ./gradlew build -i
 
 after_success:
