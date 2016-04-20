@@ -2,86 +2,59 @@ package com.fewlaps.quitnowemailsuggester.repository;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Repository {
 
-    private static final String SUFFIX_FILE_LOCATION = "list/public_suffix_list.dat";
-    private static final String DISPOSABLES_FILE_LOCATION = "disposables/index.json";
-
-    private static List<String> cachedTlds;
-    private static String[] cachedDisposables;
+    private final String SUFFIX_FILE_LOCATION = "/list/public_suffix_list.dat";
+    private final String DISPOSABLES_FILE_LOCATION = "/disposables/index.json";
 
     public List<String> getTlds() {
-        if (cachedTlds == null) {
-            try {
-                List<String> lines = new ArrayList();
-                FileInputStream inputStream = null;
-                ClassLoader classLoader = getClass().getClassLoader();
-                URL url = classLoader.getResource(SUFFIX_FILE_LOCATION);
-                File file = new File(url.getFile());
-                Scanner sc = null;
-                try {
-                    inputStream = new FileInputStream(file);
-                    sc = new Scanner(inputStream, "UTF-8");
-                    while (sc.hasNextLine()) {
-                        lines.add(sc.nextLine());
-                    }
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    if (sc != null) {
-                        sc.close();
-                    }
-                }
-
-                cachedTlds = lines;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+        try {
+            return getFileLines(SUFFIX_FILE_LOCATION);
+        } catch (IOException e) {
+            return null;
         }
-        return cachedTlds;
     }
 
     public String[] getDisposables() {
-        if (cachedDisposables == null) {
-            try {
-                StringBuilder sb = new StringBuilder();
-                FileInputStream inputStream = null;
-                ClassLoader classLoader = getClass().getClassLoader();
-                URL url = classLoader.getResource(DISPOSABLES_FILE_LOCATION);
-                File file = new File(url.getFile());
-                Scanner sc = null;
-                try {
-                    inputStream = new FileInputStream(file);
-                    sc = new Scanner(inputStream, "UTF-8");
-                    while (sc.hasNextLine()) {
-                        sb.append(sc.nextLine());
-                    }
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    if (sc != null) {
-                        sc.close();
-                    }
-                }
+        try {
+            StringBuilder sb = new StringBuilder();
+            List<String> lines = getFileLines(DISPOSABLES_FILE_LOCATION);
+            for (String line : lines) {
+                sb.append(line);
+            }
 
-                Gson gson = new Gson();
-                cachedDisposables = gson.fromJson(sb.toString(), String[].class);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+            Gson gson = new Gson();
+            return gson.fromJson(sb.toString(), String[].class);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private List<String> getFileLines(String fileLocation) throws IOException {
+        List<String> lines = new ArrayList();
+
+        InputStream inputStream = null;
+        Scanner scanner = null;
+        try {
+            inputStream = getClass().getResourceAsStream(fileLocation);
+            scanner = new Scanner(inputStream, "UTF-8");
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (scanner != null) {
+                scanner.close();
             }
         }
-        return cachedDisposables;
+        return lines;
     }
 }
