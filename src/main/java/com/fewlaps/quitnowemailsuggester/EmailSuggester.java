@@ -44,7 +44,6 @@ public class EmailSuggester {
             new EmailCorrection("gamil", GMAIL),
             new EmailCorrection("gmal", GMAIL),
             new EmailCorrection("ygmail", GMAIL),
-            new EmailCorrection("ymail", GMAIL),
             new EmailCorrection("yamil", GMAIL),
             new EmailCorrection("gmai", GMAIL),
             new EmailCorrection("gimail", GMAIL),
