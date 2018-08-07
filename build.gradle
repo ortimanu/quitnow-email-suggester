@@ -1,5 +1,5 @@
 group 'com.fewlaps.quitnowemailsuggester'
-version '2.0.0'
+version '2.4.0'
 
 apply plugin: 'java'
 apply plugin: 'com.novoda.bintray-release'
@@ -35,7 +35,7 @@ publish {
     userOrg = 'fewlaps'
     groupId = 'com.fewlaps.quitnowemailsuggester'
     artifactId = 'quitnow-email-suggester'
-    publishVersion = '2.0.0'
+    publishVersion = '2.3.0'
     desc = ''
     website = 'https://github.com/Fewlaps/quitnow-email-suggester'
 }
