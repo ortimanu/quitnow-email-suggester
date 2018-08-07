@@ -1,15 +1,10 @@
 language: java
 jdk:
-  - oraclejdk7
-  - oraclejdk8
-  - openjdk7
+ - oraclejdk8
  
 before_install:
  - chmod +x gradlew
  - git submodule update --init --recursive
-
-script:
- - ./gradlew build -i
 
 after_success:
  - ./gradlew cobertura coveralls
