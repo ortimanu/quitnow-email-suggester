@@ -61,6 +61,12 @@ So, before starting, initalise git submodules:
 git submodule update --init --recursive
 ```
 
+To update the submodoles after initializing use:
+
+```
+git submodule update --remote --merge
+```
+
 ## Download
 
 * Get <a href="https://github.com/Fewlaps/quitnow-email-suggester/releases/download/v2.0.0/quitnow-email-suggester-2.0.0.jar">the latest .jar</a> 
